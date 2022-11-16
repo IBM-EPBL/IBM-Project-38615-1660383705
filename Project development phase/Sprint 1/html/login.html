@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/login.css">
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="loginContainer">
+            <span>Login To Continue</span>
+            <div class="traditionalLoginContainer">
+                <form class="signupForm" action="/" method="post">
+                    <input type="email" name="email" placeholder="Email" id="email">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                    <input class="loginButton" type="submit" value="Login">
+                </form>
+            </div>
+            <a class="hyperLink" href="registration.html">Don't have an Account? Register ↗</a>
+        </div>
+    </div>
+    
+    <!--set the path where the node modules are installed in pc-->
+    <script src="node_modules/localforage/dist/localforage.js"></script>
+
+    <script>
+        document.querySelector(".signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault()
+            let email = document.getElementById("email").value
+            let password = document.getElementById("password").value
+            let flag = false
+            let userData = await localforage.getItem("userDatabase")
+            console.log(userData)
+            if (userData) {
+                userData.forEach(e => {
+                    if (e.email === email) {
+                        if (e.password === password || e.isFire === true) {
+                            localforage.setItem("userData", e)
+                            flag = true
+                            window.location.href = "index.html"
+                        }
+                    }
+                })
+
+            } else {
+                alert("User Not Found")
+            }
+
+            if (!flag) {
+                alert("Invalid Credentials")
+            }
+        })
+    </script>
+</body>
+
+</html>

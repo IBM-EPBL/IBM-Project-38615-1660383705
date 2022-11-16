@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/login.css">
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="loginContainer">
+            <span>SignUp to Continue</span>
+            <div class="traditionalLoginContainer">
+                <form class="signupForm" action="/" method="post">
+                    <input type="text" name="firstName" placeholder="First Name" id="firstName">
+                    <input type="text" name="lastName" placeholder="Last Name" id="lastName">
+                    <input type="text" name="username" placeholder="User Name" id="username">
+                    <input type="email" name="email" placeholder="Email" id="email">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                    <input class="loginButton" type="submit" value="Sign Up">
+                </form>
+            </div>
+            <a class="hyperLink" href="login.html">Already have an Account? Login ↗</a>
+        </div>
+    </div>
+
+    <!--set the path where the node modules are installed in pc-->
+    <script src="node_modules/localforage/dist/localforage.js"></script>
+
+    <script>
+        document.querySelector(".signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault()
+            let firstName = document.getElementById("firstName").value
+            let lastName = document.getElementById("lastName").value
+            let username = document.getElementById("username").value
+            let email = document.getElementById("email").value
+            let password = document.getElementById("password").value
+            let profilePic=`https://avatars.dicebear.com/api/initials/${firstName}-${lastName}.svg?backgroundColor=variant03`
+
+            let data = { firstName, lastName, username, email, password, profilePic }
+
+            await localforage.setItem("userData", data)
+
+            let database = await localforage.getItem("userDatabase")
+            if (database == null) {
+                database = []
+            }
+            database.push(data)
+            await localforage.setItem("userDatabase", database)
+            window.location.href = "index.html"
+        })
+    </script>
+</body>
+
+</html>

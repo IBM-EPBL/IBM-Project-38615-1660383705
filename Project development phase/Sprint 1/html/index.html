@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/index.css">
+    <title>IOT Based Safety Gadget for Child Safety Monitoring and Notification</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="details">
+            <h1 class="name"></h1>
+            <div class="imageContainer">
+                <img class="image" width=150px alt="profile picture" />
+            </div>
+            <h2 class="email"></h2>
+
+            <a class="dashboard" href="dashboard.html">Go to Dashboard ↗</a>
+        </div>
+    </div>
+
+    <!--set the path where the node modules are installed in pc-->
+    <script src="node_modules/localforage/dist/localforage.js"></script>
+
+    <script>
+        async function check() {
+            let data = localforage.getItem("userData")
+            if (data == null) {
+                window.location.href = "login.html"
+            }
+        }
+        check()
+    </script>
+    <script>
+        async function main() {
+            let name = document.querySelector(".name")
+            let image = document.querySelector(".image")
+            let email = document.querySelector(".email")
+            let userData = await localforage.getItem("userData")
+            if (userData == null) {
+                window.location.href = "login.html"
+            }
+            name.innerHTML = `Welcome ${userData.firstName} ${userData.lastName}!`
+            image.src = userData.profilePic
+            email.innerHTML = `Your email is: <a style="text-decoration: none;color: #0072B5;" href="mailto:${userData.email}">${userData.email}</a>`
+        }
+        main()
+    </script>
+</body>
+
+</html>
